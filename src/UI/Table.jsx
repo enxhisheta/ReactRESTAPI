@@ -1,7 +1,7 @@
 import useFetch from "../hooks/useFetch";
 
 const Table = () => {
-  const { languages, loading, error } = useFetch();
+  const { data: repositories, loading, error } = useFetch();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -11,16 +11,28 @@ const Table = () => {
       <thead>
         <tr>
           <th>Name</th>
-          <th>Type</th>
-          <th>Frameworks</th>
+          <th>Language</th>
+          <th>Watchers</th>
+          <th>Description</th>
+          <th>Created At</th>
+          <th>Last Updated</th>
+          <th>Repository URL</th>
         </tr>
       </thead>
       <tbody>
-        {languages.map((item, index) => (
-          <tr key={index}>
-            <td>{item.name}</td>
-            <td>{item.type}</td>
-            <td>{item.frameworks.join(", ")}</td>
+        {repositories.map((repo) => (
+          <tr key={repo.id}>
+            <td>{repo.name}</td>
+            <td>{repo.language || "N/A"}</td>
+            <td>{repo.watchers_count}</td>
+            <td>{repo.description || "No description"}</td>
+            <td>{new Date(repo.created_at).toLocaleDateString()}</td>
+            <td>{new Date(repo.updated_at).toLocaleDateString()}</td>
+            <td>
+              <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                Visit
+              </a>
+            </td>
           </tr>
         ))}
       </tbody>
