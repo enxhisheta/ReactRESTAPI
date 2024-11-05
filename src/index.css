@@ -99,3 +99,15 @@ button:focus-visible {
 .language-table tr:nth-child(even) {
   background-color: #2e2e2e;
 }
+
+.filter-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+.filter-container input,
+.filter-container select {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
