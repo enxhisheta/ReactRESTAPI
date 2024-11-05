@@ -50,7 +50,7 @@ const Filter = ({ onApplyFilters }) => {
         value={filters.order}
         onChange={(e) => handleFilterChange("order", e.target.value)}
       />
-      <button onClick={applyFilters}>Happy Filters</button>
+      <button onClick={applyFilters}>Apply Filters</button>
     </div>
   );
 };
