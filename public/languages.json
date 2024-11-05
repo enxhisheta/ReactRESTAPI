@@ -1,0 +1,17 @@
+[
+  {
+    "name": "JavaScript",
+    "type": "Programming Language",
+    "frameworks": ["React", "Vue", "Angular"]
+  },
+  {
+    "name": "Python",
+    "type": "Programming Language",
+    "frameworks": ["Django", "Flask", "FastAPI"]
+  },
+  {
+    "name": "Java",
+    "type": "Programming Language",
+    "frameworks": ["Spring", "Hibernate"]
+  }
+]
