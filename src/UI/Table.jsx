@@ -1,34 +1,38 @@
 import useFetch from "../hooks/useFetch";
 import Filter from "./Filter";
+import { useState } from "react";
 
 const Table = () => {
-  const { data: repositories, loading, error } = useFetch();
+  const [filterParams, setFilterParams] = useState({
+    language: "javascript",
+    createdAfter: "2024-11-01",
+    stars: 5,
+    sort: "stars",
+    order: "desc",
+  });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-
-  let counter = 0;
+  const { data: repositories } = useFetch(filterParams);
 
   return (
     <div>
-      <Filter />
+      <Filter onApplyFilters={setFilterParams} />
       <table className="language-table">
         <thead>
           <tr>
-            <th>Number</th>
+            <th>#</th>
             <th>Name</th>
             <th>Language</th>
             <th>Watchers</th>
             <th>Description</th>
             <th>Created At</th>
             <th>Last Updated</th>
-            <th>Repository URL</th>
+            <th>URL</th>
           </tr>
         </thead>
         <tbody>
-          {repositories.map((repo) => (
+          {repositories.map((repo, idx) => (
             <tr key={repo.id}>
-              <td>{counter++}</td>
+              <td>{idx + 1}</td>
               <td>{repo.name}</td>
               <td>{repo.language || "N/A"}</td>
               <td>{repo.watchers_count}</td>
@@ -36,13 +40,7 @@ const Table = () => {
               <td>{new Date(repo.created_at).toLocaleDateString()}</td>
               <td>{new Date(repo.updated_at).toLocaleDateString()}</td>
               <td>
-                <a
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visit
-                </a>
+                <a href={repo.html_url}>Visit</a>
               </td>
             </tr>
           ))}

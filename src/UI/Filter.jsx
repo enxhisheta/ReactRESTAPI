@@ -1,69 +1,56 @@
 import { useState } from "react";
+import InputFilter from "./InputFilter";
 
-const Filter = () => {
-  const [language, setLanguage] = useState("");
-  const [createdAfter, setCreatedAfter] = useState("2024-11-01");
-  const [stars, setStars] = useState(5);
-  const [sort, setSort] = useState("stars");
-  const [order, setOrder] = useState("desc");
+// eslint-disable-next-line react/prop-types
+const Filter = ({ onApplyFilters }) => {
+  const [filters, setFilters] = useState({
+    language: "javascript",
+    createdAfter: "2024-11-01",
+    stars: 5,
+    sort: "stars",
+    order: "desc",
+  });
 
-  const handleFilterChange = () => {
-    const searchParams = new URLSearchParams(window.location.search);
-
-    if (language) searchParams.set("language", language);
-    else searchParams.delete("language");
-
-    if (createdAfter) searchParams.set("createdAfter", createdAfter);
-    else searchParams.delete("createdAfter");
-
-    if (stars) searchParams.set("stars", stars);
-    else searchParams.delete("stars");
-    console.log(stars);
-
-    if (sort) searchParams.set("sort", sort);
-    else searchParams.delete("sort");
-
-    if (order) searchParams.set("order", order);
-    else searchParams.delete("order");
-
-    window.history.pushState(
-      {},
-      "",
-      `${window.location.pathname}?${searchParams.toString()}`
-    );
-
-    // Optionally trigger a fetch to reload data
-    window.location.reload();
+  const handleFilterChange = (key, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
+
+  const applyFilters = () => onApplyFilters(filters);
 
   return (
     <div className="filter-container">
-      <input
-        type="text"
-        placeholder="Language"
-        value={language}
-        onChange={(e) => setLanguage(e.target.value)}
+      <InputFilter
+        label="Language"
+        value={filters.language}
+        onChange={(e) => handleFilterChange("language", e.target.value)}
       />
-      <input
+      <InputFilter
+        label="Created After"
         type="date"
-        value={createdAfter}
-        onChange={(e) => setCreatedAfter(e.target.value)}
+        value={filters.createdAfter}
+        onChange={(e) => handleFilterChange("createdAfter", e.target.value)}
       />
-      <input
+      <InputFilter
+        label="Stars"
         type="number"
-        placeholder="Stars"
-        value={stars}
-        onChange={(e) => setStars(e.target.value)}
+        value={filters.stars}
+        onChange={(e) => handleFilterChange("stars", e.target.value)}
       />
-      <select value={sort} onChange={(e) => setSort(e.target.value)}>
-        <option value="stars">Stars</option>
-        <option value="updated">Updated</option>
-      </select>
-      <select value={order} onChange={(e) => setOrder(e.target.value)}>
-        <option value="desc">Descending</option>
-        <option value="asc">Ascending</option>
-      </select>
-      <button onClick={handleFilterChange}>Apply Filters</button>
+      <InputFilter
+        label="Sort"
+        type="select"
+        options={["stars", "forks", "help-wanted-issues", "updated"]}
+        value={filters.sort}
+        onChange={(e) => handleFilterChange("sort", e.target.value)}
+      />
+      <InputFilter
+        label="Order"
+        type="select"
+        options={["desc", "asc"]}
+        value={filters.order}
+        onChange={(e) => handleFilterChange("order", e.target.value)}
+      />
+      <button onClick={applyFilters}>Happy Filters</button>
     </div>
   );
 };
