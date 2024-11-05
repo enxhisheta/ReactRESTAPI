@@ -5,11 +5,13 @@ const Table = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
+  let counter = 0;
 
   return (
     <table className="language-table">
       <thead>
         <tr>
+          <th>Number</th>
           <th>Name</th>
           <th>Language</th>
           <th>Watchers</th>
@@ -22,6 +24,7 @@ const Table = () => {
       <tbody>
         {repositories.map((repo) => (
           <tr key={repo.id}>
+            <td>{counter++}</td>
             <td>{repo.name}</td>
             <td>{repo.language || "N/A"}</td>
             <td>{repo.watchers_count}</td>
