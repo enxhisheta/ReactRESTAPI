@@ -13,9 +13,13 @@ const Table = () => {
 
   const { data: repositories } = useFetch(filterParams);
 
+  const handleFilterChange = (key, value) => {
+    setFilterParams((prevParams) => ({ ...prevParams, [key]: value }));
+  };
+
   return (
     <div>
-      <Filter onApplyFilters={setFilterParams} />
+      <Filter filterParams={filterParams} onFilterChange={handleFilterChange} />
       <table className="language-table">
         <thead>
           <tr>
