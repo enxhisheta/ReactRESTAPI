@@ -9,6 +9,8 @@ const Table = () => {
     stars: 5,
     sort: "stars",
     order: "desc",
+    page: 1,
+    per_page: 10,
   });
 
   const [tempFilterParams, setTempFilterParams] = useState(filterParams);
@@ -21,6 +23,20 @@ const Table = () => {
 
   const applyFilters = () => {
     setFilterParams(tempFilterParams);
+  };
+
+  const goToNextPage = () => {
+    setFilterParams((prevParams) => ({
+      ...prevParams,
+      page: prevParams.page + 1,
+    }));
+  };
+
+  const goToPreviousPage = () => {
+    setFilterParams((prevParams) => ({
+      ...prevParams,
+      page: Math.max(prevParams.page - 1, 1),
+    }));
   };
 
   return (
@@ -37,6 +53,7 @@ const Table = () => {
             <th>Name</th>
             <th>Language</th>
             <th>Watchers</th>
+            <th>Stars</th>
             <th>Description</th>
             <th>Created At</th>
             <th>Last Updated</th>
@@ -50,6 +67,7 @@ const Table = () => {
               <td>{repo.name}</td>
               <td>{repo.language || "N/A"}</td>
               <td>{repo.watchers_count}</td>
+              <td>{repo.stargazers_count}</td>
               <td>{repo.description || "No description"}</td>
               <td>{new Date(repo.created_at).toLocaleDateString()}</td>
               <td>{new Date(repo.updated_at).toLocaleDateString()}</td>
@@ -60,6 +78,13 @@ const Table = () => {
           ))}
         </tbody>
       </table>
+      <div className="pagination">
+        <button onClick={goToPreviousPage} disabled={filterParams.page === 1}>
+          Previous
+        </button>
+        <span>Page {filterParams.page}</span>
+        <button onClick={goToNextPage}>Next</button>
+      </div>
     </div>
   );
 };

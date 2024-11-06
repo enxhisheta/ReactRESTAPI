@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 
 const API_URL = "https://api.github.com/search/repositories";
 
-const useFetch = ({ language, createdAfter, stars, sort, order }) => {
+const useFetch = ({
+  language,
+  createdAfter,
+  stars,
+  sort,
+  order,
+  page,
+  per_page,
+}) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -13,6 +21,8 @@ const useFetch = ({ language, createdAfter, stars, sort, order }) => {
           q: `language:${language} created:>${createdAfter} stars:>${stars}`,
           sort,
           order,
+          page,
+          per_page,
         })}`;
 
         const response = await fetch(url);
@@ -27,7 +37,7 @@ const useFetch = ({ language, createdAfter, stars, sort, order }) => {
     };
 
     fetchData();
-  }, [language, createdAfter, stars, sort, order]);
+  }, [language, createdAfter, stars, sort, order, page, per_page]);
 
   return { data, error };
 };
