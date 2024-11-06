@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import InputFilter from "./InputFilter";
 
-const Filter = ({ filterParams, onFilterChange }) => {
+const Filter = ({ filterParams, onFilterChange, onApplyFilters }) => {
   return (
     <div className="filter-container">
       <InputFilter
@@ -28,9 +28,7 @@ const Filter = ({ filterParams, onFilterChange }) => {
         value={filterParams.order}
         onChange={(e) => onFilterChange("order", e.target.value)}
       />
-      <button onClick={() => onFilterChange(filterParams)}>
-        Apply Filters
-      </button>
+      <button onClick={onApplyFilters}>Apply Filters</button>
     </div>
   );
 };

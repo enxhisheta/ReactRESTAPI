@@ -1,6 +1,6 @@
 import useFetch from "../hooks/useFetch";
 import Filter from "./Filter";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const Table = () => {
   const [filterParams, setFilterParams] = useState({
@@ -11,15 +11,25 @@ const Table = () => {
     order: "desc",
   });
 
+  const [tempFilterParams, setTempFilterParams] = useState(filterParams);
+
   const { data: repositories } = useFetch(filterParams);
 
-  const handleFilterChange = (key, value) => {
-    setFilterParams((prevParams) => ({ ...prevParams, [key]: value }));
+  const handleTempFilterChange = useCallback((key, value) => {
+    setTempFilterParams((prevParams) => ({ ...prevParams, [key]: value }));
+  }, []);
+
+  const applyFilters = () => {
+    setFilterParams(tempFilterParams);
   };
 
   return (
     <div>
-      <Filter filterParams={filterParams} onFilterChange={handleFilterChange} />
+      <Filter
+        filterParams={tempFilterParams}
+        onFilterChange={handleTempFilterChange}
+        onApplyFilters={applyFilters}
+      />
       <table className="language-table">
         <thead>
           <tr>

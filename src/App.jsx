@@ -3,7 +3,7 @@ import Table from "./UI/Table";
 const App = () => {
   return (
     <div>
-      <h1>Programming Languages</h1>
+      <h1>Repositories</h1>
       <Table />
     </div>
   );
